@@ -1,0 +1,156 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fafafa;
+  font-family: "Lato", sans-serif;
+}
+
+#root {
+  padding: 20px 5%;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.header {
+  font-size: 2em;
+}
+
+.heading1 {
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.bottom-margin {
+  margin-bottom: 5% !important;
+}
+
+.container-movie {
+  display: grid;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.card-action-area {
+  cursor: default !important;
+}
+
+.wrap-card-movie {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.movie-text-container {
+  padding-left: 5%;
+}
+
+.movie-text-container > *:not(:last-child) {
+  margin-bottom: 3%;
+}
+
+.one-line {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.two-line {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.movie-attribute > *:not(:last-child) {
+  margin: 0 3% 3% 0;
+}
+
+.button-favorite {
+  position: absolute;
+  right: 0;
+  top: 0;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.card-content > *:not(:last-child) {
+  margin-bottom: 3%;
+}
+
+.card-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2%;
+}
+
+.attribute-container {
+  border-top: dashed;
+  border-bottom: dashed;
+  padding: 3% 0;
+}
+
+.attribute-container > * {
+  margin: 0 2% 2% 0;
+}
+
+.text-grey {
+  color: grey;
+}
+
+.not-found {
+  margin-bottom: 5%;
+  font-size: 2.5em;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+footer {
+  margin-top: 3%;
+}
+
+@media screen and (min-width: 500px) {
+  .MuiPaper-root {
+    overflow: hidden !important;
+  }
+
+  .container-movie {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75em;
+  }
+
+  .card-action-area {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    align-items: flex-start !important;
+    gap: 3%;
+  }
+
+  .card-content {
+    grid-column-start: 2;
+    grid-column-end: 4;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .bottom-margin {
+    margin-bottom: 2% !important;
+  }
+
+  .container-movie {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75em;
+  }
+}
