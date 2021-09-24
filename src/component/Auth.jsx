@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Supbase from '../models/SupbaseClient';
+import Supabase from '../models/SupabaseClient';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -27,7 +27,7 @@ const Auth = () => {
   const handleLogin = async () => {
     try {
       setLoading(true);
-      const { error } = await Supbase.auth.signIn({ email });
+      const { error } = await Supabase.auth.signIn({ email });
 
       if (error) throw error;
       alert('Check your email for login link!');

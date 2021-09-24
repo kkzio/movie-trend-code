@@ -72,7 +72,12 @@ const TrendContainer = (props) => {
         })
       }
       </div>
-      { isModalOpen && <MovieDetail handleClose={ handleClose } movieDetail={ movieDetailData } />}
+      { isModalOpen && 
+        <MovieDetail 
+          handleClose={ handleClose } 
+          movieDetail={ movieDetailData } 
+          checkFavoriteCount={ props.checkFavoriteCount }/>
+      }
     </div>
   );
 };

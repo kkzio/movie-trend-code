@@ -5,14 +5,16 @@ import Search from "./Search";
 import TrendContainer from './TrendContainer';
 import Footer from "./Footer";
 import FabComponent from "./FabComponent";
-import Supabase from '../models/SupbaseClient';
+import Supabase from '../models/SupabaseClient';
 import Auth from './Auth';
+import favoriteCount from "../utils/favoriteCount";
 
 const App = () => {
   const [ session, setSession ] = useState(null);
   const [ movies, setMovies ] = useState(null);
   const [ movieGenres, setMovieGenres] = useState(null);
   const [ isSearch, setSearch ] = useState(false);
+  const [ favoriteQuantity, setFavoriteQuantity ] = useState(0);
 
   const handleClickSearch = useCallback((text) => {
     if (text) {
@@ -35,6 +37,11 @@ const App = () => {
     getDataMovies();
   }
 
+  const handleCheckFavoriteQuantity = async () => {
+    const quantity = await favoriteCount()
+    setFavoriteQuantity(quantity);
+  };
+
   useEffect(() => {
     setSession(Supabase.auth.session());
     Supabase.auth.onAuthStateChange((_event, session) => {
@@ -53,19 +60,20 @@ const App = () => {
     
     getDataMovies();
     getMovieGenres();
+    handleCheckFavoriteQuantity();
   }, []);
 
   return(
     <div>
     { !session ? <Auth /> : 
       <div>
-      {console.log(Supabase.auth.user().email)}
-        <Header />
+        <Header favoriteQuantity={ favoriteQuantity }/>
         <Search className='search-input' handleClick={ handleClickSearch }/>
         <TrendContainer 
           movies={ movies } 
           movieGenres={ movieGenres } 
-          isSearch={ isSearch } 
+          isSearch={ isSearch }
+          checkFavoriteCount = { handleCheckFavoriteQuantity }
           closeHandleBack={ handleBack }  
         />
         { isSearch && <FabComponent handleBack={ handleBack }/>}

@@ -11,6 +11,11 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import { FavoriteBorder } from '@material-ui/icons';
 import { Favorite } from '@material-ui/icons';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
+import addFavorite from '../../utils/addFavorite';
+import Supabase from '../../models/SupabaseClient';
+import unFavorite from '../../utils/unFavorite';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,15 +62,74 @@ const useStyles = makeStyles((theme) => ({
 
 const MovieDetail = (props) => {
   const [ movieDetail, setMovieDetail ] = useState(null);
-  const [ isFavorite, setFavorite ] = useState(false);
+  const [ isFavorite, setIsFavorite ] = useState(false);
+  const [ isLoading, setLoading ] = useState(false);
   const classes = useStyles();
   
   useEffect(() => {
+    const checkIsFavorite = async () => {
+      try {
+        setLoading(true);
+        let { data, error, status } = await Supabase
+          .from('movie_favorite')
+          .select('movie_id')
+          .match({movie_id: movieDetail.id});
+
+        if (error && status !== 406) throw error;
+
+        if (data.length === 1) {
+          setIsFavorite(true);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     setMovieDetail(props.movieDetail);
-  }, [props.movieDetail]);
+    movieDetail !== null && checkIsFavorite();
+  }, [movieDetail, props.movieDetail]);
+
+  const handleFavoriteClick = async () => {
+    setIsFavorite(true);
+    setLoading(true);
+    await addFavorite({
+      movie_id: movieDetail.id,
+      img: movieDetail.poster_path,
+      title: movieDetail.original_title,
+      genres: movieDetail.genres,
+      rating: movieDetail.vote_average,
+      popularity: movieDetail.popularity,
+      minute: movieDetail.runtime,
+      release: movieDetail.release_date,
+      overview: movieDetail.overview,
+      link: movieDetail.homepage,
+      budget: movieDetail.budget, 
+    });
+    props.checkFavoriteCount();
+    setLoading(false);
+  };
+
+  const handleUnFavoriteClick = async () => {
+    setIsFavorite(false);
+    setLoading(true);
+    unFavorite({ id: movieDetail.id });
+    props.checkFavoriteCount();
+    setLoading(false);
+  };
+
+  const LoadingIndicator = withStyles(() => ({
+    root: {
+      color: '#212121',
+      width: '64px !important',
+      height: '64px !important',
+    },
+  }))(CircularProgress);
 
   return (
     <Card className={ classes.root }>
+      { isLoading &&  <div className='loading-screen'> <LoadingIndicator /> </div>}
       {movieDetail !== null &&
         <div className='detail-content-wrap'>
           <CardActionArea className='card-action-area'>
@@ -86,7 +150,10 @@ const MovieDetail = (props) => {
                   })
                 }
                 </span>
-                { isFavorite ? <Favorite className='button-favorite' /> : <FavoriteBorder className='button-favorite' /> }
+                { isFavorite ? 
+                  <Favorite className='button-favorite' onClick={ handleUnFavoriteClick } /> : 
+                  <FavoriteBorder className='button-favorite' onClick={ handleFavoriteClick } /> 
+                }
               </div>
               <div className='attribute-container'>
                 <Chip 

@@ -2,7 +2,7 @@ import React from "react";
 import Badge from '@material-ui/core/Badge';
 import { makeStyles } from "@material-ui/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   anchorTopRight: {
     transform: 'translate(50%, -90%)',
     backgroundColor: '#000000',
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Header = () => {
+const Header = (props) => {
   const classes = useStyles();
   
   return(
@@ -25,7 +25,7 @@ const Header = () => {
       <h1 className='header bottom-margin'>Movie Trend</h1>
       <div className={ classes.favoritLink }>
         <Badge 
-          badgeContent={0} 
+          badgeContent={ props.favoriteQuantity } 
           classes={{ badge: classes.anchorTopRight }} 
           showZero={ true }>
             Favorite
