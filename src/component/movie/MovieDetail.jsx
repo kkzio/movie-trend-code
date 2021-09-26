@@ -72,8 +72,8 @@ const MovieDetail = (props) => {
         setLoading(true);
         let { data, error, status } = await Supabase
           .from('movie_favorite')
-          .select('movie_id')
-          .match({movie_id: movieDetail.id});
+          .select('id')
+          .match({id: movieDetail.id});
 
         if (error && status !== 406) throw error;
 
@@ -95,16 +95,16 @@ const MovieDetail = (props) => {
     setIsFavorite(true);
     setLoading(true);
     await addFavorite({
-      movie_id: movieDetail.id,
-      img: movieDetail.poster_path,
-      title: movieDetail.original_title,
-      genres: movieDetail.genres,
-      rating: movieDetail.vote_average,
+      id: movieDetail.id,
+      poster_path: movieDetail.poster_path,
+      original_title: movieDetail.original_title,
+      genre_ids: movieDetail.genres,
+      vote_average: movieDetail.vote_average,
       popularity: movieDetail.popularity,
-      minute: movieDetail.runtime,
-      release: movieDetail.release_date,
+      runtime: movieDetail.runtime,
+      release_date: movieDetail.release_date,
       overview: movieDetail.overview,
-      link: movieDetail.homepage,
+      homepage: movieDetail.homepage,
       budget: movieDetail.budget, 
     });
     props.checkFavoriteCount();
@@ -114,7 +114,7 @@ const MovieDetail = (props) => {
   const handleUnFavoriteClick = async () => {
     setIsFavorite(false);
     setLoading(true);
-    unFavorite({ id: movieDetail.id });
+    await unFavorite({ id: movieDetail.id });
     props.checkFavoriteCount();
     setLoading(false);
   };

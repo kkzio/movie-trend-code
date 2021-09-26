@@ -23,7 +23,13 @@ const Header = (props) => {
   return(
     <header>
       <h1 className='header bottom-margin'>Movie Trend</h1>
-      <div className={ classes.favoritLink }>
+      <div 
+        className={ classes.favoritLink } 
+        onClick={ () => {
+          props.onClick()
+          }
+        }
+      >
         <Badge 
           badgeContent={ props.favoriteQuantity } 
           classes={{ badge: classes.anchorTopRight }} 

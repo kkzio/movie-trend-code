@@ -8,6 +8,7 @@ import FabComponent from "./FabComponent";
 import Supabase from '../models/SupabaseClient';
 import Auth from './Auth';
 import favoriteCount from "../utils/favoriteCount";
+import getFavorite from "../utils/getFavorite";
 
 const App = () => {
   const [ session, setSession ] = useState(null);
@@ -15,6 +16,7 @@ const App = () => {
   const [ movieGenres, setMovieGenres] = useState(null);
   const [ isSearch, setSearch ] = useState(false);
   const [ favoriteQuantity, setFavoriteQuantity ] = useState(0);
+  const [ heading, setHeading ] = useState('Movie Trending');
 
   const handleClickSearch = useCallback((text) => {
     if (text) {
@@ -23,6 +25,7 @@ const App = () => {
         setMovies(data);
       };
       getSearchMovie();
+      setHeading('Search result');
       setSearch(true);
     }
   }, []);
@@ -33,13 +36,20 @@ const App = () => {
       setMovies(data);
       setSearch(isAppear);
     };
-
+    setHeading('Movie Trending');
     getDataMovies();
   }
 
   const handleCheckFavoriteQuantity = async () => {
     const quantity = await favoriteCount()
     setFavoriteQuantity(quantity);
+  };
+
+  const onFavoriteButtonClick = async () => {
+    const favorite = await getFavorite();
+    setMovies(favorite);
+    setHeading('Your Favorite Movie');
+    setSearch(true);
   };
 
   useEffect(() => {
@@ -67,9 +77,10 @@ const App = () => {
     <div>
     { !session ? <Auth /> : 
       <div>
-        <Header favoriteQuantity={ favoriteQuantity }/>
+        <Header favoriteQuantity={ favoriteQuantity } onClick={ onFavoriteButtonClick } />
         <Search className='search-input' handleClick={ handleClickSearch }/>
         <TrendContainer 
+          heading={ heading }
           movies={ movies } 
           movieGenres={ movieGenres } 
           isSearch={ isSearch }

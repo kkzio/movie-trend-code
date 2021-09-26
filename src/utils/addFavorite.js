@@ -1,16 +1,16 @@
 import Supabase from '../models/SupabaseClient';
 
 const addFavorite = async ({ 
-  movie_id,
-  img,
-  title,
-  genres,
-  rating,
+  id,
+  poster_path,
+  original_title,
+  genre_ids,
+  vote_average,
   popularity,
-  minute,
-  release,
+  runtime,
+  release_date,
   overview,
-  link,
+  homepage,
   budget, 
 }) => {
   try {
@@ -18,16 +18,16 @@ const addFavorite = async ({
 
     const insert = {
       email: email,
-      movie_id,
-      img,
-      title,
-      genres,
-      rating,
+      id,
+      poster_path,
+      original_title,
+      genre_ids,
+      vote_average,
       popularity,
-      minute,
-      release,
+      runtime,
+      release_date,
       overview,
-      link,
+      homepage,
       budget,
     }
 

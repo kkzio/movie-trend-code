@@ -38,7 +38,7 @@ const TrendContainer = (props) => {
   return(
     <div>
       <h1 className='heading1 bottom-margin'>
-        { props.isSearch ? 'Search result' : 'Movie Trending'}
+        { props.heading }
       </h1>
       {movieTrends !== null && movieTrends.length < 1 && <h1 className='not-found'>Not Found </h1> }
       <div className='container-movie'>
