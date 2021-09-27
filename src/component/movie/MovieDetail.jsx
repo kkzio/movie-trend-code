@@ -74,7 +74,7 @@ const MovieDetail = (props) => {
         let { data, error, status } = await Supabase
           .from('movie_favorite')
           .select('id')
-          .match({id: movieDetail.id, email: user});
+          .match({email: user, id: movieDetail.id});
 
         if (error && status !== 406) throw error;
 
