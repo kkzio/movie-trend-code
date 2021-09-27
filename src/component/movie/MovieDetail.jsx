@@ -69,11 +69,12 @@ const MovieDetail = (props) => {
   useEffect(() => {
     const checkIsFavorite = async () => {
       try {
+        const user = Supabase.auth.user().email;
         setLoading(true);
         let { data, error, status } = await Supabase
           .from('movie_favorite')
           .select('id')
-          .match({id: movieDetail.id});
+          .match({id: movieDetail.id, email: user});
 
         if (error && status !== 406) throw error;
 
