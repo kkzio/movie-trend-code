@@ -1,5 +1,5 @@
 {
-  "homepage": "https://kkzio.github.io/movie-trend/",
+  "homepage": "https://kkzio.github.io",
   "name": "movie-trend",
   "version": "0.1.0",
   "private": true,
@@ -37,7 +37,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "serve build",
-    "deploy": "gh-pages -d ./build"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
