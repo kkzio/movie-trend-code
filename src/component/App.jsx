@@ -70,8 +70,8 @@ const App = () => {
     
     getDataMovies();
     getMovieGenres();
-    handleCheckFavoriteQuantity();
-  }, []);
+    if (session) handleCheckFavoriteQuantity();
+  }, [session]);
 
   return(
     <div>
